@@ -1,0 +1,89 @@
+
+  
+  /* Login container styles */
+  .login-container {
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Max width of the form */
+    text-align: center;
+  }
+  
+
+  
+  /* Error message styles */
+  .error-message {
+    color: #d9534f; /* Red color for error */
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  /* Form styles */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Form group styles */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  /* Label styles */
+  .label {
+    font-size: 0.875rem;
+    color: #555;
+  }
+  
+  /* Input styles */
+  .input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Input focus styles */
+  .input:focus {
+    border-color: #aa1945; /* Rose Red */
+    box-shadow: 0 0 5px rgba(170, 25, 69, 0.5);
+  }
+  
+  /* Button styles */
+  .button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #aa1945; /* Rose Red */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+  }
+  
+  /* Button hover styles */
+  .button:hover {
+    background-color: #d52b6b; /* Lighter Rose Red */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .login-container {
+      padding: 1.5rem;
+      width: 90%;
+    }
+  
+   
+  }
+  

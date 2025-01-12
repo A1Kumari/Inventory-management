@@ -1,0 +1,45 @@
+/* Floating Animation */
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(10px, -10px);
+  }
+  50% {
+    transform: translate(0, -20px);
+  }
+  75% {
+    transform: translate(-10px, -10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Buttons */
+.btn-primary {
+  @apply py-3 px-6 rounded font-semibold transition-all duration-300 shadow-md;
+  background-color: #69C6F5; /* Primary background color */
+  color: #ffffff; /* White text color */
+}
+
+.btn-primary:hover {
+  background-color: #3E90FD; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+  box-shadow: 0 4px 10px rgba(62, 144, 253, 0.4); /* Glowing shadow */
+}
+
+.btn-primary:active {
+  transform: scale(0.98); /* Slight press-in effect */
+  box-shadow: 0 2px 5px rgba(62, 144, 253, 0.2); /* Reduced shadow */
+}
+
+.btn-primary:focus {
+  outline: 2px solid #FFA521; /* Orange focus ring */
+  outline-offset: 2px;
+}
