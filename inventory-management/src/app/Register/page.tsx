@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import styles from "./page.module.css";
+import HeroImg1 from "../../assets/heroImg.png";
+import Image from "next/image";
+import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { FaHome } from "react-icons/fa"; // Import Font Awesome home icon
 
 const RegisterPage = () => {
-  const router = useRouter();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,8 +18,8 @@ const RegisterPage = () => {
     phone: "",
     bio: "",
   });
-
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,45 +27,41 @@ const RegisterPage = () => {
       ...formData,
       [name]: value,
     });
-    console.log(`${name} updated:`, value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-  
+
     const { name, email, password, confirmPassword, photo, phone, bio } = formData;
-  
+
     if (!name || !email || !password || !confirmPassword || !photo || !phone || !bio) {
       setErrorMessage("Please fill in all required fields.");
       return;
     }
-  
+
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
       return;
     }
-  
+
     try {
       const response = await fetch("http://localhost:5000/api/users/register", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",  // Ensure JSON content-type
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name,
           email,
           password,
-          photo,
-          phone,
-          bio,
         }),
       });
-  
-      const data = await response.json(); // Parse JSON response from server
-  
+
+      const data = await response.json();
+
       if (response.ok) {
-        router.push("/login"); // Redirect on success
+        router.push("/login");
       } else {
         setErrorMessage(data.message || "Registration failed.");
       }
@@ -71,103 +69,99 @@ const RegisterPage = () => {
       setErrorMessage("An error occurred during registration.");
     }
   };
-  
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="container">
-        <h1 className="text-3xl font-bold mb-6 text-center">Register</h1>
+    <div className={styles["register-page"]}>
+      {/* Home Icon */}
+      <div className={styles["home-icon-container"]} onClick={() => router.push("/")}>
+        <FaHome className={styles["home-icon"]} />
+        <span className={styles["home-text"]}>Home</span>
+      </div>
 
+      {/* Left Side: Register Form */}
+      <div className={styles["form-container"]}>
+        <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">Register</h1>
+        {errorMessage && <p className={styles["error-message"]}>{errorMessage}</p>}
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700">Name</label>
+          <div className={styles["form-group"]}>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
+              id="name"
               name="name"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter your name"
               value={formData.name}
               onChange={handleInputChange}
+              required
+              placeholder="Enter your name"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700">Email</label>
+          <div className={styles["form-group"]}>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
+              id="email"
               name="email"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter your email"
               value={formData.email}
               onChange={handleInputChange}
+              required
+              placeholder="Enter your email"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700">Password</label>
+          <div className={styles["form-group"]}>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
+              id="password"
               name="password"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter your password"
               value={formData.password}
               onChange={handleInputChange}
+              required
+              placeholder="Enter your password"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700">Confirm Password</label>
+          <div className={styles["form-group"]}>
+            <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
+              id="confirmPassword"
               name="confirmPassword"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Confirm your password"
               value={formData.confirmPassword}
               onChange={handleInputChange}
+              required
+              placeholder="Confirm your password"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-700">Photo URL</label>
-            <input
-              type="text"
-              name="photo"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter photo URL"
-              value={formData.photo}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter your phone number"
-              value={formData.phone}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700">Bio</label>
-            <textarea
-              name="bio"
-              className="w-full p-3 border border-gray-300 rounded-lg"
-              placeholder="Enter your bio"
-              value={formData.bio}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <button type="submit" className="btn-primary">
+          <button type="submit" className={styles["btn-register"]}>
             Register
           </button>
         </form>
+      </div>
 
-        {errorMessage && <p className="text-red-500 mt-4 text-center">{errorMessage}</p>}
+      {/* Right Side: Main Content */}
+      <div className={styles["content-container"]}>
+        <div className={styles["dots-pattern"]}>
+          <div className="text-left">
+            <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">
+              Welcome to <span className="text-[#FFA521]">InviTree</span>,
+              <br />
+              the platform for <span className="text-[#69C6F5]">small business owners</span>!
+            </h1>
+            <p className="text-lg lg:text-xl font-light text-gray-600 mb-6">
+              Manage your inventory, track sales, and grow your business with ease
+              using <span className="text-[#FFA521] font-medium">InviTree</span>.
+            </p>
+            <Image
+              src={HeroImg1}
+              alt="Hero Image"
+              width={220}
+              height={220}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

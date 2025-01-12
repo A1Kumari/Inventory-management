@@ -1,89 +1,154 @@
+/* Home Icon Container */
+.home-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
 
-  
-  /* Login container styles */
-  .login-container {
-    background-color: #fff; /* White background for the form */
-    border-radius: 8px;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px; /* Max width of the form */
-    text-align: center;
-  }
-  
+.home-icon-container:hover {
+  color: #0056b3;
+}
 
+.home-icon {
+  font-size: 2rem; /* Larger icon size */
+}
+
+.home-text {
+  font-size: 1.2rem; /* Adjust text size */
+}
+
+/* Page Layout */
+
+
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Left Side: Content */
+.content-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dots-pattern {
+  background: radial-gradient(circle, #0f0f0f 1px, transparent 1px);
+  background-size: 10px 10px;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  height: 80vh;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+
+/* Right Side: Form */
+.form-container {
+  width: 100%;
+  height: 80vh;
+  animation: fadeIn 0.8s ease-in-out;
+  flex: 1;
+  padding: 50px;
   
-  /* Error message styles */
-  .error-message {
-    color: #d9534f; /* Red color for error */
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
+  top: 50% !important;
+  background-color: red;
+  height: 80vh;
+}
+
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #69c6f5;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #ff4d4f;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+/* Form Styling */
+.form-group {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+
+.btn-login {
+  
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000; /* Text color */
+  background-color: #ffd700; /* Button background (yellow) */
+  border: 2px solid #000000; /* Black border */
+  border-radius: 6px; /* Slightly rounded corners */
+  position: relative;
+  cursor: pointer;
+}
+
+.btn-login::before,
+.btn-login::after {
+  content: "";
+  position: absolute;
+  background-color: #000000; /* Border effect color */
+  z-index: -1;
+}
+
+.btn-login::before {
+  height: 2px;
+  width: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.btn-login::after {
+  width: 2px;
+  height: 0;
+  left: 0;
+  top: 0;
+}
+
+.btn-login:hover::before {
+  width: 100%;
+}
+
+.btn-login:hover::after {
+  height: 100%;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+
+
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  /* Form styles */
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* Form group styles */
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-  }
-  
-  /* Label styles */
-  .label {
-    font-size: 0.875rem;
-    color: #555;
-  }
-  
-  /* Input styles */
-  .input {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  /* Input focus styles */
-  .input:focus {
-    border-color: #aa1945; /* Rose Red */
-    box-shadow: 0 0 5px rgba(170, 25, 69, 0.5);
-  }
-  
-  /* Button styles */
-  .button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #aa1945; /* Rose Red */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: 600;
-  }
-  
-  /* Button hover styles */
-  .button:hover {
-    background-color: #d52b6b; /* Lighter Rose Red */
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 480px) {
-    .login-container {
-      padding: 1.5rem;
-      width: 90%;
-    }
-  
-   
-  }
-  
+}
+
+
+

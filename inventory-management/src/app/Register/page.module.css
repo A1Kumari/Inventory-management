@@ -1,0 +1,126 @@
+/* page.module.css */
+
+.register-page {
+    display: flex;
+    height: 100vh;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Home icon styling */
+  .home-icon-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .home-icon {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .home-text {
+    margin-left: 8px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Left side - Register Form */
+  .form-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-right: 20px;
+    height: 100%;
+  }
+  
+  .form-container h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #69c6f5;
+  }
+  
+  .btn-register {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: #69c6f5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-register:hover {
+    background-color: #55a8d9;
+  }
+  
+  /* Right side - Content */
+  .content-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .dots-pattern {
+    background-image: url('/path/to/dots-pattern.png');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+  }
+ 
