@@ -1,12 +1,11 @@
 "use client";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaHome } from "react-icons/fa"; // Import Font Awesome home icon
 import styles from "./page.module.css";
 import HeroImg1 from "../../assets/heroImg.png";
 import Image from "next/image";
-import { useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { FaHome } from "react-icons/fa"; // Import Font Awesome home icon
+import DirectionalComponent from "../(components)/uiComponent";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -14,14 +13,12 @@ const RegisterPage = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    photo: "",
-    phone: "",
-    bio: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
-  const handleInputChange = (e) => {
+  // Updated handleInputChange to support both input and textarea elements
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -29,13 +26,13 @@ const RegisterPage = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
-    const { name, email, password, confirmPassword, photo, phone, bio } = formData;
+    const { name, email, password, confirmPassword} = formData;
 
-    if (!name || !email || !password || !confirmPassword || !photo || !phone || !bio) {
+    if (!name || !email || !password || !confirmPassword ) {
       setErrorMessage("Please fill in all required fields.");
       return;
     }
@@ -72,12 +69,14 @@ const RegisterPage = () => {
 
   return (
     <div className={styles["register-page"]}>
-      {/* Home Icon */}
-      <div className={styles["home-icon-container"]} onClick={() => router.push("/")}>
+      <div
+        className={styles["home-icon-container"]}
+        onClick={() => router.push("/")}
+      >
         <FaHome className={styles["home-icon"]} />
         <span className={styles["home-text"]}>Home</span>
       </div>
-
+      
       {/* Left Side: Register Form */}
       <div className={styles["form-container"]}>
         <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">Register</h1>
@@ -137,32 +136,16 @@ const RegisterPage = () => {
 
           <button type="submit" className={styles["btn-register"]}>
             Register
-          </button>
+          </button><br/>
+          <a href="/login" style={{ color: 'blue' }}>Login if you already have an account</a>
+
         </form>
       </div>
 
-      {/* Right Side: Main Content */}
-      <div className={styles["content-container"]}>
-        <div className={styles["dots-pattern"]}>
-          <div className="text-left">
-            <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">
-              Welcome to <span className="text-[#FFA521]">InviTree</span>,
-              <br />
-              the platform for <span className="text-[#69C6F5]">small business owners</span>!
-            </h1>
-            <p className="text-lg lg:text-xl font-light text-gray-600 mb-6">
-              Manage your inventory, track sales, and grow your business with ease
-              using <span className="text-[#FFA521] font-medium">InviTree</span>.
-            </p>
-            <Image
-              src={HeroImg1}
-              alt="Hero Image"
-              width={220}
-              height={220}
-            />
-          </div>
-        </div>
-      </div>
+
+      {/* Left Side: Main Content */}
+      <DirectionalComponent direction="right"/>
+
     </div>
   );
 };

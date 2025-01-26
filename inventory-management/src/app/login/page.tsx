@@ -1,82 +1,103 @@
 "use client";
+
 import styles from "./page.module.css";
 import HeroImg1 from "../../assets/heroImg.png";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { FaHome } from "react-icons/fa"; // Import Font Awesome home icon
+import { FaHome } from "react-icons/fa";
+import DirectionalComponent from "../(components)/uiComponent";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // To handle loading state
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const LOGIN_API_ENDPOINT = "http://localhost:5000/api/users/login";
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setError(""); // Clear previous errors
+  
+    if (!email || !password) {
+      setError("Please provide both email and password");
+      return;
+    }
+  
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setError("Please provide a valid email address");
+      return;
+    }
+  
     try {
-      if (!email || !password) {
-        setError("Please provide both email and password");
-        return;
-      }
-
+      setIsLoading(true); // Start loading state
+  
+      const payload = { email, password };
+      console.log("Sending payload to backend:", payload); // Log the payload
+  
       const res = await axios.post(
-        "http://localhost:3000/api/users/login",
-        { email, password },
+        LOGIN_API_ENDPOINT,
+        payload,
         { withCredentials: true }
       );
-
+  
       if (res.status === 200) {
+        console.log("Login successful:", res.data);
         router.push("/dashboard");
+      } else {
+        console.error("Unexpected response:", res);
+        setError("Unexpected error. Please try again later.");
       }
-    } catch (error: any) {
-      if (error.response) {
-        setError(error.response.data.message || "Invalid email or password");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error);
+  
+        if (error.response) {
+          console.error("Response data:", error.response.data);
+          setError(error.response.data.message || "Invalid email or password");
+        } else if (error.request) {
+          setError("Unable to reach the server. Please try again later.");
+        } else {
+          setError("An error occurred. Please try again.");
+        }
       } else {
         setError("Something went wrong. Please try again later.");
       }
+    } finally {
+      setIsLoading(false); // End loading state
     }
   };
+  
+
 
   return (
     <div className={styles["login-page"]}>
       {/* Home Icon */}
-      <div className={styles["home-icon-container"]} onClick={() => router.push("/")}>
+      <div
+        className={styles["home-icon-container"]}
+        onClick={() => router.push("/")}
+      >
         <FaHome className={styles["home-icon"]} />
         <span className={styles["home-text"]}>Home</span>
       </div>
 
       {/* Left Side: Main Content */}
-      <div className={styles["content-container"]}>
-        <div className={styles["dots-pattern"]}>
-          <div className="text-left">
-            <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">
-              If you are a <span className="text-[#FFA521]">small owner</span>,
-              <br />
-              this is the <span className="text-[#69C6F5]">platform</span> made for{" "}
-              <span className="text-[#3E90FD]">you!</span>
-            </h1>
-            <p className="text-lg lg:text-xl font-light text-gray-600 mb-6">
-              Manage your inventory, track sales, and grow your business with ease
-              using <span className="text-[#FFA521] font-medium">InviTree</span>.
-            </p>
-            <Image
-              src={HeroImg1} // Replace with the actual path
-              alt="Floating Image"
-              width={220}
-              height={220}
-            />
-          </div>
-        </div>
-      </div>
+      <DirectionalComponent
+        direction="left"
+      />
 
       {/* Right Side: Login Form */}
       <div className={styles["form-container"]}>
-        <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">Log In</h1>
+        <h1 className="text-4xl lg:text-6xl font-extrabold mb-6 leading-tight">
+          Log In
+        </h1>
         <p className={styles["subtitle"]}>Access your account</p>
         {error && <p className={styles["error-message"]}>{error}</p>}
+
         <form onSubmit={handleLogin}>
           <div className={styles["form-group"]}>
             <label htmlFor="email">Email</label>
@@ -100,9 +121,14 @@ const LoginPage = () => {
               placeholder="Enter your password"
             />
           </div>
-          <button type="submit" className={styles["btn-login"]}>
-            Log In
-          </button>
+          <button
+            type="submit"
+            className={styles["btn-login"]}
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Log In"}
+          </button><br/>
+          <a href="/register" style={{ color: 'blue' }}>Register if not having a account</a>
         </form>
       </div>
     </div>

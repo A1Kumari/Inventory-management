@@ -1,0 +1,119 @@
+
+  /* Flex Direction Based on Prop */
+  .directional-component.left {
+    flex-direction: row;
+  }
+  
+  .directional-component.right {
+    flex-direction: row-reverse;
+  }
+  
+  /* Content Styling */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .content h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .content h2 {
+    font-size: 1.5rem;
+    color: #69c6f5;
+    font-weight: 600;
+  }
+  
+  .content p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 2.6;
+  }
+  
+  .content img {
+    max-width: 100%;
+    height: auto;
+    
+  }
+  
+  /* Image Container */
+  .image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .image-container img:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Dots Pattern */
+  .dots-pattern {
+    background: radial-gradient(circle, #0f0f0f 1px, transparent 1px);
+    background-size: 10px 10px;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+  }
+  
+  
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+
+  
+  .directional-component {
+
+    height: 80vh;
+padding: 40px;
+    gap: 20px;
+    margin-top: 70px;
+    width: 40%;
+  }
+  .head{
+    font-size: 5.5rem;
+    font-weight: bold;
+    line-height: 1.4;
+  }
+  
+  
+  .desp{
+    font-size: 1.2rem;
+    margin-top: 20px;
+    color: #333;
+  }
+  
+  .orange {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #f57c00; /* Vibrant orange */
+  }
+  
+  .blue {
+    color: #1976d2; /* Vibrant blue */
+  }
+  
+
+  

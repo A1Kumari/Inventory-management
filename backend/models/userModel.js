@@ -21,20 +21,7 @@ const userSchema = mongoose.Schema({
         minLength: [6, "password must be up to 6 characters"],
         // maxLength: [23, "password must not be more than 23 characters"]
     },
-    photo:{
-        type: String,
-        required: [true, "please add a photo"],
-        default: "https://i.ibb.co/4pDNDk1/avatar.png"
-    },
-    phone:{
-        type: String,
-        default: "+91"
-    },
-    bio:{
-        type: String,
-        maxLength: [250, "bio must not be more than 250 characters"],
-        default: "bio"
-    }
+    
 },{
     timestamps: true, 
 })

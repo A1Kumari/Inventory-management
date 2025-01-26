@@ -16,6 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import heroImg from "../../../assets/heroImg1.png";
 
 interface SidebarLinkProps {
   href: string;
@@ -82,10 +83,10 @@ const Sidebar = () => {
         }`}
       >
         <Image
-          src=""
-          alt="edstock-logo"
-          width={27}
-          height={27}
+          src={heroImg}
+          alt="InviTree-logo"
+          width={30}
+          height={30}
           className="rounded w-8"
         />
         <h1
@@ -93,7 +94,7 @@ const Sidebar = () => {
             isSidebarCollapsed ? "hidden" : "block"
           } font-extrabold text-2xl`}
         >
-          EDSTOCK
+          InviTree
         </h1>
 
         <button

@@ -61,10 +61,13 @@
   animation: fadeIn 0.8s ease-in-out;
   flex: 1;
   padding: 50px;
-  
-  top: 50% !important;
-  background-color: red;
+  margin-top: 70px;
   height: 80vh;
+  background-color: rgb(207, 206, 206);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-right: 20px;
+  margin-left: 20px;
 }
 
 

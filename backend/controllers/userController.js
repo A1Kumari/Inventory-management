@@ -30,26 +30,19 @@ const registerUser = asyncHandler(async (req, res) => {
         return;
     }
 
-    // Encrypt password before saving to DB
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create new user
+    // Create new user without hashing the password
     const user = await User.create({
         name,
         email,
-        password: hashedPassword,
+        password, // Storing plain password directly
     });
 
     if (user) {
-        const { _id, name, email, photo, phone, bio } = user;
+        const { _id, name, email } = user;
         res.status(201).json({
             _id,
             name,
             email,
-            photo,
-            phone,
-            bio,
             token: generateToken(user._id),
         });
     } else {
@@ -57,55 +50,71 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
+
 // Login User
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    // Validate request
+    // Debugging: Log email and password received
+    console.log("Received Email:", email);
+    console.log("Received Password:", password);
+
     if (!email || !password) {
-        res.status(400);
-        throw new Error("Please add email and password");
+        console.log("Validation Failed: Email or Password is missing");
+        return res.status(400).json({ message: "Please add email and password" });
     }
 
-    // Check if user exists
     const user = await User.findOne({ email });
 
+    // Debugging: Log whether the email was found
     if (!user) {
-        res.status(400);
-        throw new Error("User not found, please sign up");
+        console.log("User not found for Email:", email);
+        return res.status(400).json({ message: "User not found, please sign up" });
+    } else {
+        console.log("User found for Email:", email);
     }
 
-    // User exists, check if password is correct
+    // Debugging: Log the hashed password from the database
+    console.log("Hashed Password in DB:", user.password);
+
+    // Compare the hashed password with the one provided by the user
     const passwordIsCorrect = await bcrypt.compare(password, user.password);
+    console.log(passwordIsCorrect);
+    // Debugging: Log the result of the password comparison
+    if (passwordIsCorrect) {
+        console.log("Password comparison successful. Password matches.");
+    } else {
+        console.log("Password comparison failed. Incorrect password.");
+    }
 
     if (user && passwordIsCorrect) {
-        // Generate token
-        const token = generateToken(user._id);
+        console.log("Login successful for Email:", email);
 
-        // Send HTTP-only cookie
+        const token = generateToken(user._id);
+        const isProduction = process.env.NODE_ENV === "production";
+
         res.cookie("token", token, {
             path: "/",
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 86400), // 1 day
             sameSite: "none",
-            secure: true,
+            secure: isProduction,
         });
 
         const { _id, name, email, photo, phone, bio } = user;
-        res.status(200).json({
+        return res.status(200).json({
             _id,
             name,
             email,
-            photo,
-            phone,
-            bio,
             token,
         });
     } else {
-        res.status(400);
-        throw new Error("Invalid email or password");
+        console.log("Unexpected issue for Email:", email);
+        return res.status(400).json({ message: "Invalid email or password" });
     }
 });
+
+
 
 // Logout User
 const logout = asyncHandler(async (req, res) => {
@@ -119,25 +128,6 @@ const logout = asyncHandler(async (req, res) => {
     return res.status(200).json({ message: "Successfully logged out" });
 });
 
-// Get User Data
-const getUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
-
-    if (user) {
-        const { _id, name, email, photo, phone, bio } = user;
-        res.status(200).json({
-            _id,
-            name,
-            email,
-            photo,
-            phone,
-            bio,
-        });
-    } else {
-        res.status(400);
-        throw new Error("User not found");
-    }
-});
 
 // Get Login Status
 const loginStatus = asyncHandler(async (req, res) => {
@@ -146,79 +136,18 @@ const loginStatus = asyncHandler(async (req, res) => {
         return res.json(false);
     }
 
-    // Verify token
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (verified) {
+    try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
         return res.json(true);
-    }
-    return res.json(false);
-});
-
-// Update User
-const updateUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
-
-    if (user) {
-        const { _id, name, email, photo, phone, bio } = user;
-        user.email = email;
-        user.name = req.body.name || name;
-        user.phone = req.body.phone || phone;
-        user.bio = req.body.bio || bio;
-        user.photo = req.body.photo || photo;
-
-        const updatedUser = await user.save();
-        res.status(200).json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            photo: updatedUser.photo,
-            phone: updatedUser.phone,
-            bio: updatedUser.bio,
-        });
-    } else {
-        res.status(404);
-        throw new Error("User not found");
+    } catch (error) {
+        return res.json(false);
     }
 });
 
-// Change Password
-const changePassword = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
-
-    const { oldPassword, password } = req.body;
-
-    if (!user) {
-        res.status(400);
-        throw new Error("User not found, please sign up");
-    }
-
-    // Validate
-    if (!oldPassword || !password) {
-        res.status(400);
-        throw new Error("Please add old and new passwords");
-    }
-
-    // Check if old password matches password in DB
-    const passwordIsCorrect = await bcrypt.compare(oldPassword, user.password);
-
-    // Save new password
-    if (user && passwordIsCorrect) {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
-        await user.save();
-        res.status(200).json({ message: "Password change successful" });
-    } else {
-        res.status(400);
-        throw new Error("Old password is incorrect");
-    }
-});
 
 module.exports = {
     registerUser,
     loginUser,
     logout,
-    getUser,
     loginStatus,
-    updateUser,
-    changePassword,
 };
